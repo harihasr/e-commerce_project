@@ -31,9 +31,9 @@ app.use(session({
     secret: 'mysecret',
     resave: false,
     saveUninitialized: false,
-    store: new MySqlStore({}, db.connection),
     cookie: { maxAge: 180 * 60 * 1000 }
 }));
+//store: new MySqlStore({}, db.connection),
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

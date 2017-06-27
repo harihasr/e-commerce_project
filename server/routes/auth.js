@@ -20,11 +20,11 @@ apiRoutes.use(csrfProtection);
 require('../config/passport')(passport);
 
 //Protected authenticated route with JWT and get user details with id
-apiRoutes.get('/:id', requireAuth, function (request, response) {
+apiRoutes.get('/profile/:id', requireAuth, function (request, response) {
     response.status(200).json({success: true, user_details: request.user});
 });
 
-apiRoutes.update('/:id', requireAuth, function (request, response) {
+apiRoutes.put('/profile/:id', requireAuth, function (request, response) {
     console.log(request.body);
     if (!request.body.email_id || !request.body.password || !request.body.first_name || !request.body.last_name) {
         response.status(400).json({success: false, message: 'Please enter email and password.'});
@@ -70,7 +70,7 @@ apiRoutes.post('/address', requireAuth, function (request, response) {
 
 });
 
-apiRoutes.update('/address/:address_id', requireAuth, function (request, response) {
+apiRoutes.put('/address/:address_id', requireAuth, function (request, response) {
     var address_id = request.params.address_id;
 
     console.log(request.body);
@@ -122,6 +122,10 @@ apiRoutes.use('/', notLoggedIn, function (req, res, next) {
 });
 
 apiRoutes.get('/register', function (request, response) {
+    response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
+    response.setHeader('Access-Control-Allow-Headers',true);
+    response.setHeader('Access-Control-Allow-Methods',true);
+
     response.status(200).json({success: true, csrfToken: request.csrfToken()});
 });
 
@@ -129,7 +133,11 @@ apiRoutes.get('/register', function (request, response) {
 apiRoutes.post('/register', function (request, response) {
     console.log(request.body);
     if (!request.body.email_id || !request.body.password || !request.body.first_name || !request.body.last_name) {
-        response.status(400).json({success: false, message: 'Please enter email and password.'});
+        response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
+        response.setHeader('Access-Control-Allow-Headers',true);
+        response.setHeader('Access-Control-Allow-Methods',true);
+
+        return response.status(400).json({success: false, message: 'Please enter email and password.'});
     } else {
         var newUser = {
             email_id: request.body.email_id,
@@ -140,8 +148,16 @@ apiRoutes.post('/register', function (request, response) {
 
         // Attempt to save the user
         db.createUser(newUser, function (res) {
-            response.status(201).json({success: true, message: 'Successfully created new user.'});
+            response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
+            response.setHeader('Access-Control-Allow-Headers',true);
+            response.setHeader('Access-Control-Allow-Methods',true);
+
+            return response.status(201).json({success: true, message: 'Successfully created new user.'});
         }, function (err) {
+            response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
+            response.setHeader('Access-Control-Allow-Headers',true);
+            response.setHeader('Access-Control-Allow-Methods',true);
+
             return response.status(400).json({success: false, message: 'That email address already exists.'});
         });
     }
@@ -184,9 +200,9 @@ apiRoutes.post('/authenticate', function (request, response) {
     });
 });
 
-apiRoutes.get('/', function (request, response) {
-    response.send('It worked');
-});
+// apiRoutes.get('/', function (request, response) {
+//     response.send('It worked');
+// });
 
 
 module.exports = apiRoutes;
@@ -195,5 +211,7 @@ function notLoggedIn(req, res, next) {
     if(!req.isAuthenticated()){
         return next();
     }
-    res.status(403).json({success: false, message: "User not logged in"});
+    else {
+        res.status(403).json({success: false, message: "User not logged in"});
+    }
 }

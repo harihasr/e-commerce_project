@@ -9,8 +9,8 @@ var crypt = require('../app/crypt');
 var db = require('../app/db');
 var apiRoutes = express.Router();
 
-var csrfProtection = csrf();
-apiRoutes.use(csrfProtection);
+// var csrfProtection = csrf();
+// apiRoutes.use(csrfProtection);
 
 // API Route Section
 
