@@ -16,7 +16,9 @@
 			    					</div>
 			    				</div>
 			    			</div>
-
+									<div class="form-group" hidden>
+			    						<input type="hidden" hidden name="_csrf" id="_csrf" class="form-control input-sm" placeholder="{{csrfToken}}" ngModel>
+			    					</div>
 			    			<div class="form-group">
 			    				<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address" ngModel pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'>
 			    			</div>
@@ -24,12 +26,12 @@
 			    			<div class="row">
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password" ngModel pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'>
+			    						<input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password" ngModel pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' required>
 			    					</div>
 			    				</div>
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" ngModel>
+			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" ngModel required>
 			    					</div>
 			    				</div>
 			    			</div>

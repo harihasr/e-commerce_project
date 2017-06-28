@@ -15,7 +15,13 @@ export class SigninComponent implements OnInit {
   onSignin(form: NgForm){
     const email = form.value.email;
     const password = form.value.password;
-    this.authService.signinUser(email, password);    
+    this.authService.signinUser(email, password).subscribe(
+      (response) => {
+        console.log(response)
+        //console.log('Logged in successfully') Navigate to cart upon successful login, clear form upon unsuccessful login
+      },
+      (error) => console.log(error)
+    );
   }
 
   ngOnInit() {

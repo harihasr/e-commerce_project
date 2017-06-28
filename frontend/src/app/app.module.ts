@@ -9,12 +9,18 @@ import { ProductsComponent } from './products/products.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { AddressComponent } from './user/address/address.component';
 import { AppRoutingModule } from './app.routing.module';
 
 import { AuthService } from './auth/auth.service';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
-import { ProfileComponent } from './user/profile/profile.component';
-import { AddressComponent } from './user/address/address.component';
+import { UserService } from './user/user.service';
+import { ErrorComponent } from './error/error.component';
+import { OrdersComponent } from './orders/orders.component';
+import { AddressEditComponent } from './user/address-edit/address-edit.component';
+
+
 
 @NgModule({
   declarations: [
@@ -25,7 +31,10 @@ import { AddressComponent } from './user/address/address.component';
     SignupComponent,
     ShoppingListComponent,
     ProfileComponent,
-    AddressComponent
+    AddressComponent,
+    ErrorComponent,
+    OrdersComponent,
+    AddressEditComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +42,7 @@ import { AddressComponent } from './user/address/address.component';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [AuthService, ShoppingListService],
+  providers: [AuthService, ShoppingListService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
