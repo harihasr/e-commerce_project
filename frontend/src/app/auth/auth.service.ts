@@ -14,7 +14,7 @@ export class AuthService{
 
     signinUser(email: string, password: string){
         console.log(email, password);
-        return this.http.post(this.urlString+'/user/login', [email, password]).map(this.extractData);
+        return this.http.post(this.urlString+'/user/login', {'email': email, 'password': password}).map(this.extractData);
     }
 
     extractData(res: Response){
@@ -29,7 +29,7 @@ export class AuthService{
 
     signupUser(email: string, password: string, first_name: string, last_name: string){
         console.log(first_name, last_name, email, password);
-        return this.http.post(this.urlString+'/user/register', [first_name, last_name, email, password]);
+        return this.http.post(this.urlString+'/user/register', {'first_name': first_name, 'last_name': last_name, 'email':email, 'password':password});
     }
 
     isSignedIn(){
