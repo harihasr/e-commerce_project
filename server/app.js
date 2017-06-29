@@ -26,12 +26,11 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('mycookiesecret', { httpOnly: true }));
 app.use(session({
     secret: 'mysecret',
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 180 * 60 * 1000 }
+    saveUninitialized: false
 }));
 //store: new MySqlStore({}, db.connection),
 app.use(passport.initialize());
@@ -39,9 +38,24 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
-   res.locals.login = req.isAuthenticated();
-   res.locals.session = req.session;
-   next();
+    res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-xsrf-token, X-Requested-With, Accept, Expires, Last-Modified, Cache-Control");
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', "true");
+    //res.cookie('XSRF-TOKEN', req.csrfToken());
+
+    next();
 });
 
 app.use('/user',userRoutes);
