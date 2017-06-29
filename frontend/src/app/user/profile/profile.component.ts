@@ -26,12 +26,15 @@ export class ProfileComponent implements OnInit {
       (response) => console.log(response),
       (error) => console.log(error)
     );
-    //this.http.post('http://localhost:3000/profile', user);
     this.router.navigate(['/cart']);
   }
 
   onCancel(){
     this.router.navigate(['/']);
+  }
+
+  onAddAddress(){
+    this.router.navigate(['/address-edit']);
   }
 
 }

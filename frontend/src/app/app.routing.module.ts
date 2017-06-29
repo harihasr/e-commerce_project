@@ -8,6 +8,8 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { AddressComponent } from './user/address/address.component';
 import { ErrorComponent } from './error/error.component';
+import { AddressEditComponent } from './user/address-edit/address-edit.component';
+import { OrdersComponent } from './orders/orders.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -15,9 +17,11 @@ const appRoutes: Routes = [
     { path: 'cart', component: ShoppingListComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'signin', component: SigninComponent },
-    { path: 'profile', component: ProfileComponent},
-    { path: 'address', component: AddressComponent},
-    { path: 'error', component: ErrorComponent}
+    { path: 'profile', component: ProfileComponent },
+    { path: 'address', component: AddressComponent },
+    { path: 'error', component: ErrorComponent },
+    { path: 'address-edit', component: AddressEditComponent },
+    { path: 'orders', component: OrdersComponent }
 ];
 
 @NgModule({

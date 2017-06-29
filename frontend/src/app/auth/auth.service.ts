@@ -9,7 +9,8 @@ export class AuthService{
         
     }
 
-    urlString: string = 'http://192.168.200.47:3000';
+    //urlString: string = 'http://192.168.200.47:3000';
+    urlString: string = 'http://localhost:3000';
 
     signinUser(email: string, password: string){
         console.log(email, password);
