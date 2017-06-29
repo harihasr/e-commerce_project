@@ -122,20 +122,15 @@ apiRoutes.use('/', notLoggedIn, function (req, res, next) {
 });
 
 apiRoutes.get('/register', function (request, response) {
-    response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
-    response.setHeader('Access-Control-Allow-Headers',true);
-    response.setHeader('Access-Control-Allow-Methods',true);
 
     response.status(200).json({success: true, csrfToken: request.csrfToken()});
+    //response.status(200).json({success: true});
 });
 
 // Register new users
 apiRoutes.post('/register', function (request, response) {
     console.log(request.body);
     if (!request.body.email_id || !request.body.password || !request.body.first_name || !request.body.last_name) {
-        response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
-        response.setHeader('Access-Control-Allow-Headers',true);
-        response.setHeader('Access-Control-Allow-Methods',true);
 
         return response.status(400).json({success: false, message: 'Please enter email and password.'});
     } else {
@@ -148,15 +143,9 @@ apiRoutes.post('/register', function (request, response) {
 
         // Attempt to save the user
         db.createUser(newUser, function (res) {
-            response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
-            response.setHeader('Access-Control-Allow-Headers',true);
-            response.setHeader('Access-Control-Allow-Methods',true);
 
             return response.status(201).json({success: true, message: 'Successfully created new user.'});
         }, function (err) {
-            response.setHeader('Access-Control-Allow-Origin','http://localhost:4200');
-            response.setHeader('Access-Control-Allow-Headers',true);
-            response.setHeader('Access-Control-Allow-Methods',true);
 
             return response.status(400).json({success: false, message: 'That email address already exists.'});
         });
