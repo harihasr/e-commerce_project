@@ -11,13 +11,9 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  csrfToken: any;
 
   constructor(private http: Http, private authService: AuthService, private router: Router) { 
-    authService.getToken().subscribe(
-        (csrfToken) => this.csrfToken = csrfToken,
-        (error) => console.log(error)
-      );
+    
   }
 
   onSignup(form: NgForm){
@@ -27,8 +23,7 @@ export class SignupComponent implements OnInit {
       const first_name = form.value.first_name;
       const last_name = form.value.last_name;
          
-      console.log(this.csrfToken);
-      this.authService.signupUser(email, password, first_name, last_name, this.csrfToken).subscribe(
+      this.authService.signupUser(email, password, first_name, last_name).subscribe(
         (response) => console.log(response),
         (error) => {
           console.log(error)

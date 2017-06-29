@@ -19,17 +19,17 @@ export class AuthService{
 
     extractData(res: Response){
         let body = res.json();
-        console.log("Extract Data "+body['csrfToken']);
-        return body['csrfToken'];
+        // console.log("Extract Data "+body['csrfToken']);
+        // return body['csrfToken'];
     }
 
-    getToken(){
-        return this.http.get(this.urlString+'/user/register').map(this.extractData);
-    }
+    // getToken(){
+    //     return this.http.get(this.urlString+'/user/register').map(this.extractData);
+    // }
 
-    signupUser(email: string, password: string, first_name: string, last_name: string, csrfToken: string){
+    signupUser(email: string, password: string, first_name: string, last_name: string){
         console.log(first_name, last_name, email, password);
-        return this.http.post(this.urlString+'/user/register', [first_name, last_name, email, password, csrfToken]);
+        return this.http.post(this.urlString+'/user/register', [first_name, last_name, email, password]);
     }
 
     isSignedIn(){
