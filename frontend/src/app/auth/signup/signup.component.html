@@ -4,9 +4,12 @@
         	<div class="panel panel-default">
 			 			<div class="panel-body">
 			    		<form role="form" (ngSubmit) = "onSignup(f)" #f="ngForm">
+							<span class="help-block"><p>{{resText}}</p></span>
 			    			<div class="row">
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
+									
 			    					<div class="form-group">
+										
 			                <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" ngModel>
 			    					</div>
 			    				</div>
@@ -31,6 +34,8 @@
 			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" ngModel required>
 			    					</div>
 			    				</div>
+								<span class="help-block"><p>{{finText}}</p></span>
+								<span class="help-block"><p>{{passText}}</p></span>  
 			    			</div>
 			    			
 			    			<input [disabled]="!f.valid" type="submit" value="Register" class="btn btn-info btn-block" >

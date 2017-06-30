@@ -9,7 +9,9 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
+  resText: string = 'Fill up the form completely and then submit';
+  passText: string = '';
+  finText: string = '';
 
   constructor(private authService: AuthService, private router: Router) { 
     
@@ -23,15 +25,30 @@ export class SignupComponent implements OnInit {
       const last_name = form.value.last_name;
          
       this.authService.signupUser(email, password, first_name, last_name).subscribe(
-        (response) => console.log(response),
+        (response) => {
+          var res = JSON.parse(response['_body']);
+          if(res['success']){
+          this.router.navigate(['signin'])
+          }
+          else{
+            console.log("Else " +response)
+            this.finText = response['message'] + " Please try again!"
+            //form.reset()
+          }
+        },
         (error) => {
-          console.log(error)
+          //console.log(JSON.parse(error['_body']));
+          var res = JSON.parse(error['_body']);
+          //console.log('error res: ' + res['message']);
+
+          this.finText = res['message'] + " Please try again!"
+          //form.reset();
           //this.router.navigate(['error'])
         }
       );
     }
     else{
-      console.log("Passwords don't match");
+      this.passText = "Passwords don't match. Please try again!"
     }
   }
 
