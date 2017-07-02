@@ -11,7 +11,7 @@ var MySqlStore = require('express-mysql-session')(session);
 var db = require('./app/db');
 var index = require('./routes/index');
 var userRoutes = require('./routes/auth');
-var productRoutes = require('./routes/products')
+var productRoutes = require('./routes/products');
 
 var app = express();
 
@@ -38,6 +38,8 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
+
+
     res.locals.login = req.isAuthenticated();
     res.locals.session = req.session;
     // Website you wish to allow to connect
@@ -48,13 +50,15 @@ app.use(function (req, res, next) {
 
     // Request headers you wish to allow
     res.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-xsrf-token, X-Requested-With, Accept, Expires, Last-Modified, Cache-Control");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-xsrf-token, X-Requested-With, Accept, Expires, Last-Modified, Cache-Control,Authorization");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', "true");
     //res.cookie('XSRF-TOKEN', req.csrfToken());
-
+    if(req.method === 'OPTIONS'){
+        return res.sendStatus(200);
+    }
     next();
 });
 
