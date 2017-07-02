@@ -19,6 +19,7 @@ import { UserService } from './user/user.service';
 import { ErrorComponent } from './error/error.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AddressEditComponent } from './user/address-edit/address-edit.component';
+import { DropdownDirective } from './header/dropdown.directive';
 
 
 
@@ -34,7 +35,8 @@ import { AddressEditComponent } from './user/address-edit/address-edit.component
     AddressComponent,
     ErrorComponent,
     OrdersComponent,
-    AddressEditComponent
+    AddressEditComponent,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,

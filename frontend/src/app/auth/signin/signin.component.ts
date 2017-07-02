@@ -10,16 +10,19 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
   resText: string = '';
-
+  isLoggedIn: boolean = false;
   constructor(private authService: AuthService, private router: Router) { }
 
   onSignin(form: NgForm){
     const email = form.value.email;
     const password = form.value.password;
+    
     this.authService.signinUser(email, password).subscribe(
       (response) => {
-        //console.log(response['success']);
+        //console.log('Response -> '+response);
         if(response['success']){
+          //console.log(response);
+          this.isLoggedIn = true;
           this.router.navigate(['/']);
         }
         else{

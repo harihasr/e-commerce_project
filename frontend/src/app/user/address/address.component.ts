@@ -11,16 +11,26 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./address.component.css']
 })
 export class AddressComponent implements OnInit {
-  private address: AddressModel[] = [];
+  address: AddressModel[] = [];
   
   //address = new AddressModel('3207 Jefferson Avenue', '#2', 'Cincinnati', 'Ohio', '45220', '5135135133');
-  userId: number = 1;
+  //token = '';
   constructor(private userService: UserService, private router: Router) { }
-
+  addressId: number;
   ngOnInit() {
-     console.log(this.userService.getAddress(this.userId));
-     const temp = new AddressModel('3207 Jefferson Avenue', '#2', 'Cincinnati', 'Ohio', '45220', '5135135133');
-     this.address.push(temp);
+     this.userService.getAddress().subscribe(
+       (response) => {
+        if(response['success']){
+          var res = JSON.parse(response['message']);
+          this.addressId = res['address_id'];
+          const temp = new AddressModel(res['address_line1'], res['address_line2'], res['city'], res['state'], res['zipcode'], res['phone']);
+          this.address.push(temp);
+        }
+      },
+       (error) => console.log(error)
+     );
+     //const temp = new AddressModel('3207 Jefferson Avenue', '#2', 'Cincinnati', 'Ohio', '45220', '5135135133');
+     //this.address.push(temp);
 
   }
 
