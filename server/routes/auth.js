@@ -17,11 +17,11 @@ var requireAuth = passport.authenticate('jwt', {session: false});
 require('../config/passport')(passport);
 
 //Protected authenticated route with JWT and get user details with id
-apiRoutes.get('/profile/:id', requireAuth, function (request, response) {
+apiRoutes.get('/profile', requireAuth, function (request, response) {
     response.status(200).json({success: true, user_details: request.user});
 });
 
-apiRoutes.put('/profile/:id', requireAuth, function (request, response) {
+apiRoutes.put('/profile', requireAuth, function (request, response) {
     console.log(request.body);
     if (!request.body.email_id || !request.body.password || !request.body.first_name || !request.body.last_name) {
         response.status(400).json({success: false, message: 'Please enter email and password.'});
@@ -118,21 +118,21 @@ apiRoutes.use('/', notLoggedIn, function (req, res, next) {
    next();
 });
 
-apiRoutes.get('/register', function (request, response) {
+apiRoutes.get('/signup', function (request, response) {
 
     //response.status(200).json({success: true, csrfToken: request.csrfToken()});
     response.status(200).json({success: true});
 });
 
 // Register new users
-apiRoutes.post('/register', function (request, response) {
+apiRoutes.post('/signup', function (request, response) {
     console.log(request.body);
-    if (!request.body.email_id || !request.body.password || !request.body.first_name || !request.body.last_name) {
+    if (!request.body.email || !request.body.password || !request.body.first_name || !request.body.last_name) {
 
         return response.status(400).json({success: false, message: 'Please enter email and password.'});
     } else {
         var newUser = {
-            email_id: request.body.email_id,
+            email_id: request.body.email,
             password: request.body.password,
             first_name: request.body.first_name,
             last_name: request.body.last_name
@@ -143,20 +143,20 @@ apiRoutes.post('/register', function (request, response) {
 
             return response.status(201).json({success: true, message: 'Successfully created new user.'});
         }, function (err) {
-
-            return response.status(400).json({success: false, message: 'That email address already exists.'});
+            console.log(err);
+            return response.status(409).json({success: false, message: 'That email address already exists.'});
         });
     }
 });
 
-apiRoutes.get('/authenticate', function (request, response) {
+apiRoutes.get('/signin', function (request, response) {
     response.status(200).json({success: true, csrfToken: request.csrfToken()});
 });
 
 // Authenticate the user and get a JSON Web Token to include in the header of future requests.
-apiRoutes.post('/authenticate', function (request, response) {
+apiRoutes.post('/signin', function (request, response) {
     db.findUser({
-        email_id: request.body.email_id
+        email_id: request.body.email
     }, function (res) {
         var user = {
             user_id: res.user_id,
