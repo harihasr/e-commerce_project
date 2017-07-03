@@ -26,7 +26,7 @@ apiRoutes.get('/', requireAuth, function (request, response) {
     var user = {
         user_id: request.user.user_id
     };
-    db.getProducts(user, function (res) {
+    db.getCart(user, function (res) {
         response.status(200).json({success: true, cart:res});
     }, function (err) {
         return response.status(400).json({success: false, message: 'Error fetching cart'});
