@@ -156,4 +156,50 @@ db.getAddress = function (user, successCallback, failureCallback) {
     });
 };
 
+db.getCart = function (user, successCallback, failureCallback) {
+    var sqlQuery = "SELECT * from `dr_bombay`.cart WHERE `user_id` = '"+user.user_id+"'";
+
+    connection.query(sqlQuery, function (err, rows, fields, res) {
+        if (err) {
+            failureCallback(err);
+            return;
+        }
+        successCallback(rows);
+    });
+};
+
+db.addToCart = function (cart, successCallback, failureCallback) {
+  var sqlQuery = "INSERT INTO `dr_bombay`.`cart` (`product_id`, `user_id`, `quantity`) VALUES ('" + cart.product_id + "','" + cart.user_id + "','"+cart.quantity+"');";
+
+  connection.query(sqlQuery, function (err, rows, feild, res) {
+     if(err){
+         failureCallback(err);
+         return;
+     }
+     successCallback();
+  });
+};
+
+db.updateCart = function (cart, successCallback, failureCallback) {
+  var sqlQuery = "UPDATE `dr_bombay`.`cart` SET `quantity` = '" + cart.quantity +"' WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
+    connection.query(sqlQuery, function (err, rows, feild, res) {
+        if(err){
+            failureCallback(err);
+            return;
+        }
+        successCallback();
+    });
+};
+
+db.deleteCart = function (cart, successCallback, failureCallback) {
+    var sqlQuery = "DELETE from `dr_bombay`.`cart` WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
+    connection.query(sqlQuery, function (err, rows, feild, res) {
+        if(err){
+            failureCallback(err);
+            return;
+        }
+        successCallback();
+    });
+};
+
 module.exports = db;

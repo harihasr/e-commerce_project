@@ -12,6 +12,7 @@ var db = require('./app/db');
 var index = require('./routes/index');
 var userRoutes = require('./routes/auth');
 var productRoutes = require('./routes/products');
+var cartRoutes = require('./routes/cart');
 
 var app = express();
 
@@ -66,6 +67,7 @@ app.use(function (req, res, next) {
 
 app.use('/user',userRoutes);
 app.use('/product',productRoutes);
+app.use('/cart', cartRoutes);
 app.use('/', index);
 //require('./routes/auth')(app);
 
