@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { ProductsModel } from './products.model';
 
 @Component({
   selector: 'app-products',
@@ -31,11 +32,10 @@ products = [
 
   ngOnInit() {
   }
-
-
-
-  addToCart(productid: number, productName: string, quantity: any){
-    this.slService.addProduct(productid, productName, quantity);
+  
+  addToCart(productid: number, productName: string, quantity: any, cost: number){
+    //const temp = new ProductsModel(productid, productName, parseInt(quantity), cost)
+    this.slService.addProduct(productid, productName, parseInt(quantity), cost);
   }
 
 }

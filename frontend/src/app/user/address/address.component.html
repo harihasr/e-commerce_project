@@ -1,17 +1,17 @@
 <div class="container" >
-    <div class="row">
-        <form class="form-horizontal" role="form" #f="ngForm">
+    <div class="row" *ngFor="let ad of addresses">
+        <form class="form-horizontal" role="form" (ngSubmit) = "onEditAddress(f)" #f="ngForm">
             <fieldset>
                 <!-- Address form -->
         
                 <h2>Address</h2>
-                <p hidden id="addressId" name="addressId" ngModel>{{address_id}}</p>
+                <p hidden id="addressId" name="addressId" ngModel>{{ad.address_id}}</p>
                 <!-- address-line1 input-->
                 <div class="control-group">
                     <label class="control-label">Address Line 1</label>
                     <div class="controls">
-                        <input id="addressLine1" name="addressLine1" type="text" required placeholder="{{ad.address-line1}}  
-                        class="input-xlarge" ngModel>
+                        <input id="addressLine1" name="addressLine1" type="text" placeholder="{{ad.address_line1}}  
+                        class="input-xlarge" value="{{ad.address_line1}}">
                         <!--<p class="help-block">Street address, P.O. box, company name, c/o</p>-->
                     </div>
                 </div>
@@ -19,41 +19,46 @@
                 <div class="control-group">
                     <label class="control-label">Address Line 2</label>
                     <div class="controls">
-                        <input id="addressLine2" name="addressLine2" type="text" required placeholder="{{ad.address-line2}}"
-                        class="input-xlarge" ngModel>
+                        <input id="addressLine2" name="addressLine2" type="text" placeholder="{{ad.address_line2}}"
+                        class="input-xlarge" value="{{ad.address_line2}}" ngModel>
                     </div>
                 </div>
                 <!-- city input-->
                 <div class="control-group">
                     <label class="control-label">City / Town</label>
                     <div class="controls">
-                        <input id="city" name="city" type="text" placeholder="{{ad.city}}" required class="input-xlarge" ngModel>
+                        <input id="city" name="city" type="text" placeholder="{{ad.city}}" class="input-xlarge" value="{{ad.city}}" ngModel>
                     </div>
                 </div>
                 <!-- region input-->
                 <div class="control-group">
                     <label class="control-label">State / Province / Region</label>
                     <div class="controls">
-                        <input id="state" name="state" type="text" required placeholder="{{ad.state}}"
-                        class="input-xlarge" ngModel>
+                        <input id="state" name="state" type="text" placeholder="{{ad.state}}" value="{{ad.state}}" ngModel                        class="input-xlarge" >
                     </div>
                 </div>
                 <!-- postal-code input-->
                 <div class="control-group">
                     <label class="control-label">Zip / Postal Code</label>
                     <div class="controls">
-                        <input id="zipcode" name="zipcode" required type="text" placeholder="{{ad.zipcode}}"
-                        class="input-xlarge" ngModel>
+                        <input id="zipcode" name="zipcode" type="text" placeholder="{{ad.zipcode}}" value="{{ad.zipcode}}" ngModel
+                        class="input-xlarge" >
                     </div>
                 </div>
                 <!-- phone input-->
                 <div class="control-group">
                     <label class="control-label">Phone Number</label>
                     <div class="controls">
-                        <input id="phone" name="phone" type="text" required placeholder="{{ad.phone}}"
-                        class="input-xlarge" ngModel>
+                        <input id="phone" name="phone" type="text" placeholder="{{ad.phone}}" value="{{ad.phone}}" ngModel
+                        class="input-xlarge" >
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Edit Address">
+                    <span></span>
+                    <!--<input type="reset" class="btn btn-default" value="Cancel" (click)="onCancel()">-->
+                </div>
+
             </fieldset>
         </form>
     </div>

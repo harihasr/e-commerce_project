@@ -17,8 +17,8 @@ export class AddressEditComponent implements OnInit {
   }
 
   onAddAddress(form: NgForm){
-    const address = new AddressModel(form.value.addressLine1, form.value.addressLine2, form.value.city, form.value.state, form.value.zipcode, form.value.phone);
-    this.userService.newAddress(address).subscribe(
+    const address = new AddressModel(1, form.value.addressLine1, form.value.addressLine2, form.value.city, form.value.state, form.value.zipcode, form.value.phone);
+    this.userService.setAddress(address).subscribe(
       (response) => {
         console.log(response)
         if(response['success']){

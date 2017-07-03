@@ -27,13 +27,19 @@ export class UserService{
     editProfile(user: UserModel){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.put(this.urlString+'/user/profile',user, {headers: headers}).map(this.extractData);
+        return this.http.put(this.urlString+'/user/profile',{'first_name':user.first_name, 'last_name': user.last_name, 'email_id':user.email, 'password':user.password}, {headers: headers}).map(this.extractData);
     }
 
     getAddress(){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
        return this.http.get(this.urlString+'/user/address', {headers: headers}).map(this.extractData);
+    }
+
+    editAddress(address: AddressModel){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.put(this.urlString+'/user/address', {'address_id':address.address_id, 'address_line1':address.address_line1, 'address_line2': address.address_line2, 'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 'phone':address.phone}, {headers: headers}).map(this.extractData);
     }
 
     extractData(res: Response){
@@ -43,15 +49,9 @@ export class UserService{
     }
 
 
-    setAddress(address_id: number, address_line1: string, address_line2: string, city: string, state: string, zipcode: string, phone: string){
+    setAddress(address: AddressModel){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.post(this.urlString+'/user/address', {'address_id':address_id, 'address_line1':address_line1, 'address_line2': address_line2, 'city':city, 'state':state, 'zipcode':zipcode, 'phone':phone}, {headers: headers}).map(this.extractData);
-    }
-
-    newAddress(address: AddressModel){
-        var headers = new Headers();
-        headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.post(this.urlString+'/user/address', address, {headers: headers}).map(this.extractData);
+        return this.http.post(this.urlString+'/user/address', {'address_id':address.address_id, 'address_line1':address.address_line1, 'address_line2': address.address_line2, 'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 'phone':address.phone}, {headers: headers}).map(this.extractData);
     }
 }

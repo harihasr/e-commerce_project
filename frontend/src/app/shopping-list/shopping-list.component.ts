@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingListService } from './shopping-list.service';
+import { ProductsModel } from '../products/products.model';
 
 @Component({
   selector: 'app-shopping-list',
@@ -8,7 +9,7 @@ import { ShoppingListService } from './shopping-list.service';
 })
 export class ShoppingListComponent implements OnInit {
 
-  products = [];
+  products: ProductsModel[] = [];
 
   constructor(private slService: ShoppingListService) { }
 
@@ -19,6 +20,33 @@ export class ShoppingListComponent implements OnInit {
         this.products = products;
       }
     );
+  }
+
+  onInc(product_id){
+    for (var index = 0; index < this.products.length; index++) {
+        if(this.products[index]['product_id'] == product_id){
+            this.products[index]['quantity'] += 1;
+            
+        }
+    }
+  }
+
+  onDec(product_id){
+    for (var index = 0; index < this.products.length; index++) {
+        if(this.products[index]['product_id'] == product_id){
+            this.products[index]['quantity'] -= 1;
+        }
+    }
+  }
+
+  deleteFromCart(product_id){
+    for (var index = 0; index < this.products.length; index++) {
+        if(this.products[index]['product_id'] == product_id){
+            this.products[index]['quantity'] += 0;
+            delete this.products[index];
+        }
+    }
+
   }
 
 }

@@ -4,11 +4,11 @@
 	<div class="row">
       <!-- edit form column -->
       <div class="col-md-9 personal-info" >
-        <div class="alert alert-info alert-dismissable" [hidden]="f.valid">
+        <!--<div class="alert alert-info alert-dismissable" [hidden]="f.valid">
           <a class="panel-close close" data-dismiss="alert">×</a> 
           <i class="fa fa-coffee"></i>
           Passwords don't match. Please re-enter
-        </div>
+        </div>-->
 
         <h3>Personal info</h3>
         
@@ -40,12 +40,13 @@
           <div class="form-group">
             <label class="col-md-3 control-label">Confirm password:</label>
             <div class="col-md-8">
-              <input class="form-control" type="password" required name="password_confirmation" ngModel>
+              <input class="form-control" type="password" required name="password_confirmation" id="password_confirmation" ngModel>
             </div>
           </div>
           <hr>
           <!--<app-address></app-address>-->
-          <a (click)="onAddAddress()" style="cursor: pointer"> + Add address + </a>
+          <!--<a (click)="onAddAddress()" style="cursor: pointer"> + Add address + </a>-->
+          <input type="button" class="btn btn-success" value="Add Address" (click)="onAddAddress()">
           <!--<button class="btn btn-primary" type="submit">Add Address</button>-->
           <span class="help-block"><p>{{resText}}</p></span>
           <div class="form-group">

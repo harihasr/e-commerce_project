@@ -1,9 +1,30 @@
-<div class="row">
+<!--<div class="row">
 <div class="col-xs-10">
   <ul class="list-group">
-    <a class="list-group-item" style="cursor: pointer" *ngFor="let product of products; let i = index">
-      {{product[1]}} ({{product[2]}})
+    <a class="list-group-item" style="cursor: pointer" *ngFor="let product of products">
+      {{product['product_name']}} ({{product['quantity']}})
+      
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2"></div>
+      </div>
     </a>
   </ul>
 </div>
+</div>-->
+
+<div class="row">
+  <div class="col-xs-10">
+    <ul class="list-group">
+      <div class="row"  *ngFor = "let product of products">
+      <li class="list-group-item">
+        <div class="col-sm-5">{{product['product_name']}}</div>
+        <button (click)="onDec(product['product_id'])" type="button" >-</button>
+        <div class="col-sm-2">{{product['quantity']}}</div>
+        <button (click)="onInc(product['product_id'])" type="button" >+</button>
+        <button class="btn btn-danger" type="button" (click)="deleteFromCart(product['product_id'])">Delete</button>
+        
+      </li>
+      </div>
+    </ul>
+  </div>
 </div>

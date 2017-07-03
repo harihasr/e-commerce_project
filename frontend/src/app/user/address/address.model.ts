@@ -1,17 +1,17 @@
 export class AddressModel{
-    //public addressId: number
-    public addressLine1: string
-    public addressLine2: string
+    public address_id: number
+    public address_line1: string
+    public address_line2: string
     public city: string
     public state: string
     public zipcode: string
     public phone: string
-    //public userId: number
+    public userId: number
 
-    constructor(addressLine1: string, addressLine2: string, city: string, state: string, zipcode: string, phone: string){
-        //this.addressId = addressId;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
+    constructor(address_id: number, address_line1: string, address_line2: string, city: string, state: string, zipcode: string, phone: string){
+        this.address_id = address_id;
+        this.address_line1 = address_line1;
+        this.address_line2 = address_line2;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
