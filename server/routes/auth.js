@@ -35,7 +35,7 @@ apiRoutes.put('/profile', requireAuth, function (request, response) {
 
         // Attempt to update the user
         db.updateUser(updateUser, function (res) {
-            response.status(201).json({success: true, message: 'Successfully updated the user.'});
+            response.status(200).json({success: true, message: 'Successfully updated the user.'});
         }, function (err) {
             return response.status(400).json({success: false, message: 'User does not exists.'});
         });
@@ -58,7 +58,7 @@ apiRoutes.post('/address', requireAuth, function (request, response) {
             user_id: request.user.user_id
         };
 
-        db.addAddress(newUser, function (res) {
+        db.addAddress(address, function (res) {
             response.status(201).json({success: true, message: 'Successfully added the address.'});
         }, function (err) {
             return response.status(400).json({success: false, message: 'Problem adding address'});
@@ -85,8 +85,8 @@ apiRoutes.put('/address/:address_id', requireAuth, function (request, response) 
             user_id: request.user.user_id
         };
 
-        db.addAddress(newUser, function (res) {
-            response.status(201).json({success: true, message: 'Successfully added the address.'});
+        db.updateAddress(address, function (res) {
+            response.status(200).json({success: true, message: 'Successfully updated the address.'});
         }, function (err) {
             return response.status(400).json({success: false, message: 'Problem adding address'});
         });
@@ -101,7 +101,7 @@ apiRoutes.get('/address',requireAuth,function (request, response) {
         user_id: user_id
     };
 
-    db.getAddress(user_id,function (res) {
+    db.getAddress(user,function (res) {
         response.status(200).json({success:true, address:res});
     }, function (err) {
         response.status(400).json({success:false, message:"Error retrieving address"});

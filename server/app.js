@@ -30,9 +30,11 @@ app.use(cookieParser('mycookiesecret', { httpOnly: true }));
 app.use(session({
     secret: 'mysecret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MySqlStore({}, db.connection),
+    cookie: { maxAge: 180 * 60 * 1000 }
 }));
-//store: new MySqlStore({}, db.connection),
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,8 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
 
 
-    res.locals.login = req.isAuthenticated();
-    res.locals.session = req.session;
+    res.locals.login = req.isAuthenticated(); //hbs
+    res.locals.session = req.session;           //hbs
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
 

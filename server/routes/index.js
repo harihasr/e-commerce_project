@@ -23,4 +23,18 @@ router.get('/add-to-cart/:id', function(req, res, next){
   });
 });
 
+router.get('/addtocart/:id', function(req, res, next){
+    var productId = req.params.id;
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+    product = {
+        price: 100
+    };
+    cart.add(product, productId);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.status(200).json({success: true, message:'Successfully added to cart'});
+
+});
+
 module.exports = router;

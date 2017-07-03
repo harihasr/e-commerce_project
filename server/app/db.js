@@ -12,8 +12,10 @@ var connection = mysql.createConnection({
     database: config.database_name
 });
 
+db.connection = connection;
+
 //Connecting to database
-connection.connect(function (err) {
+db.connection.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
@@ -126,16 +128,12 @@ db.addAddress = function(address, successCallback, failureCallback){
             failureCallback(err);
             return;
         }
-        if (rows.length > 0) {
-            successCallback(rows[0])
-        } else {
-            failureCallback('Error adding Address');
-        }
+        successCallback();
     });
 };
 
 db.updateAddress = function (address, successCallback, failureCallback) {
-    var sqlQuery = "UPDATE `dr_bombay`.users SET `address_line1` = '" + address.address_line1 + "', `address_line2`='"+ address.address_line2 +"', `city` ='"+address.city+"', `state` ='"+address.state+"', `zip_code` ='"+address.zip_code+"', `phone` ='"+address.phone+"', `user_id` ='"+address.user_id+"' WHERE `address_id` = '" + address.address_id + "';";
+    var sqlQuery = "UPDATE `dr_bombay`.`address` SET `address_line1` = '" + address.address_line1 + "', `address_line2`='"+ address.address_line2 +"', `city` ='"+address.city+"', `state` ='"+address.state+"', `zip_code` ='"+address.zip_code+"', `phone` ='"+address.phone+"', `user_id` ='"+address.user_id+"' WHERE `address_id` = '" + address.address_id + "';";
 
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
