@@ -39,7 +39,9 @@ export class UserService{
     editAddress(address: AddressModel){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.put(this.urlString+'/user/address', {'address_id':address.address_id, 'address_line1':address.address_line1, 'address_line2': address.address_line2, 'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 'phone':address.phone}, {headers: headers}).map(this.extractData);
+        console.log(address, address['address_id']);
+        //var temp = address['address_id'].toString();
+        return this.http.put(this.urlString+'/user/address/'+address.address_id, {'address_id':address.address_id, 'address_line1':address.address_line1, 'address_line2': address.address_line2, 'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 'phone':address.phone}, {headers: headers}).map(this.extractData);
     }
 
     extractData(res: Response){

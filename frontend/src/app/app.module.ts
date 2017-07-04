@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { Ng2Webstorage } from 'ng2-webstorage';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ProductsComponent } from './products/products.component';
@@ -42,7 +43,8 @@ import { DropdownDirective } from './header/dropdown.directive';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2Webstorage
   ],
   providers: [AuthService, ShoppingListService, UserService],
   bootstrap: [AppComponent]

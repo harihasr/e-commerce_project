@@ -19,9 +19,13 @@
         <p>{{ product.description }}</p>
         <div class="col-sm-2 form-group">
               <label for="amount">Enter quantity and add to cart</label>
-              <input type="number" id="amount" class="form-control" value=1 #amountInput [pattern]="'^[1-9]+[0-9]*$'">
+              <input type="number" id="amount" class="form-control" value=1 #amountInput 
+              [pattern]="'^[1-9]+[0-9]*$'">
             </div>
-        <button [disabled]="amountInput.value < 1" class="btn btn-primary" (click)="addToCart(product.id, product.name, amountInput.value, product.cost);" style="cursor: pointer;">Add to cart</button>
+            <span class="help-block"><p>{{resText}}</p></span>
+        <button [disabled]="amountInput.value < 1" class="btn btn-primary"
+         (click)="addToCart(product.id, product.name, amountInput.value, product.cost);"
+          style="cursor: pointer;">Add to cart</button>
       </div>
     </div>
   </div>
