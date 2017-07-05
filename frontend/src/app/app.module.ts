@@ -21,6 +21,7 @@ import { ErrorComponent } from './error/error.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AddressEditComponent } from './user/address-edit/address-edit.component';
 import { DropdownDirective } from './header/dropdown.directive';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 
@@ -37,7 +38,8 @@ import { DropdownDirective } from './header/dropdown.directive';
     ErrorComponent,
     OrdersComponent,
     AddressEditComponent,
-    DropdownDirective
+    DropdownDirective,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

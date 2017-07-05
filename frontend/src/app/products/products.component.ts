@@ -50,11 +50,16 @@ products = [
     // }
       // let temp = JSON.stringify({'product_id': productid, 'product_name': productName, 'quantity': quantity, 'cost': cost});
       // NgXCookies.setCookie('cart', temp);
-    
-      this.slService.addProduct(productid, parseInt(quantity)).subscribe(
-        (response) => console.log(response),
-        (error) => console.log(error)
-      );
+      if(this.authService.isAuthenticated()){
+        this.slService.addProduct(productid, parseInt(quantity)).subscribe(
+          (response) => console.log(response),
+          (error) => console.log(error)
+        );
+      }
+      else{
+        this.slService.putProduct(productid, quantity);
+      }
+      
     
   }
 

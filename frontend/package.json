@@ -20,12 +20,14 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/stripe": "^3.0.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "ng2-webstorage": "^1.8.0",
     "ngx-cookie": "^1.0.0",
     "ngx-cookies": "^1.0.5",
     "rxjs": "^5.1.0",
+    "stripe": "^4.23.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

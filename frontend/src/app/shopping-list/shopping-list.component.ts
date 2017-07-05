@@ -3,6 +3,7 @@ import { ShoppingListService } from './shopping-list.service';
 import { ProductsModel } from '../products/products.model';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user/user.service';
 
 
 @Component({
@@ -15,20 +16,16 @@ export class ShoppingListComponent implements OnInit {
   total: number = 0;
   
   constructor(private slService: ShoppingListService,
-   private authService: AuthService, private router: Router){}
+   private authService: AuthService, private router: Router,
+   private userService: UserService){}
   
   ngOnInit(){
     while(this.products.length > 0){
       this.products.pop();
     }
-    //console.log(this.products.length);
     this.products.length = 0;
-    //console.log(this.products.length);
-    //this.products = this.slService.getProducts();
-    //console.log("list component");
-    //console.log(this.products.length);
-    
-    this.slService.getFromServer().subscribe(
+    if(this.authService.isAuthenticated()){
+      this.slService.getFromServer().subscribe(
       (response) => {
         if(response['success']){
             //console.log("list servc");
@@ -41,25 +38,43 @@ export class ShoppingListComponent implements OnInit {
                 this.products.push(temp);
             }
         }
+          for (var index = 0; index < this.products.length; index++) {
+          if(this.products[index]['product_id'] == 1){
+            this.products[index]['product_name'] = 'Cuban Caddy';
+            this.products[index]['cost'] = 15;
+          }
+          else if(this.products[index]['product_id'] == 2){
+            this.products[index]['product_name'] = 'Dr. Bombay Arm Band';
+            this.products[index]['cost'] = 39;
+          }
+        }
+        this.total = 0;
         for (var index = 0; index < this.products.length; index++) {
-        if(this.products[index]['product_id'] == 1){
-          this.products[index]['product_name'] = 'Cuban Caddy';
-          this.products[index]['cost'] = 15;
+          this.total += this.products[index]['quantity']*this.products[index]['cost']; 
         }
-        else if(this.products[index]['product_id'] == 2){
-          this.products[index]['product_name'] = 'Dr. Bombay Arm Band';
-          this.products[index]['cost'] = 39;
+        //console.log(this.total);
+        },
+        (error) => console.log(error)
+      );
+    }
+    else{
+      this.products = this.slService.getProducts();
+      this.slService.productsChanged.subscribe(
+        (products) => {
+          this.products = products;
         }
-      }
-      this.total = 0;
+      );
       for (var index = 0; index < this.products.length; index++) {
-        this.total += this.products[index]['quantity']*this.products[index]['cost']; 
-      }
-      //console.log(this.total);
-      },
-      (error) => console.log(error)
-    );
-
+          if(this.products[index]['product_id'] == 1){
+            this.products[index]['product_name'] = 'Cuban Caddy';
+            this.products[index]['cost'] = 15;
+          }
+          else if(this.products[index]['product_id'] == 2){
+            this.products[index]['product_name'] = 'Dr. Bombay Arm Band';
+            this.products[index]['cost'] = 39;
+          }
+        }
+    }
   }
 
   onInc(product_id, quantity){
@@ -128,6 +143,10 @@ export class ShoppingListComponent implements OnInit {
   }
 
   onCheckout(){
-
+    this.userService.setTotal(this.total);
+    if(this.authService.isAuthenticated()){
+      this.router.navigate(['checkout']);
+    }
+    
   }
 }

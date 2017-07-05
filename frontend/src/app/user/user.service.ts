@@ -10,9 +10,10 @@ import { Observable } from 'rxjs/Observable';
 export class UserService{
     user: UserModel[] = [];
     address: AddressModel[] = [];
+    total: number = 0;
 
-    //urlString: string = 'http://192.168.200.47:3000';
-    urlString: string = 'http://localhost:3000';
+    urlString: string = 'http://192.168.200.47:3000';
+    //urlString: string = 'http://localhost:3000';
 
     constructor(private http: Http){
 
@@ -50,10 +51,28 @@ export class UserService{
         return body;
     }
 
+    setTotal(total: number){
+        this.total = total;
+    }
+
+    getTotal(){
+        return this.total;
+    }
+
 
     setAddress(address: AddressModel){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.post(this.urlString+'/user/address', {'address_id':address.address_id, 'address_line1':address.address_line1, 'address_line2': address.address_line2, 'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 'phone':address.phone}, {headers: headers}).map(this.extractData);
+        return this.http.post(this.urlString+'/user/address', {'address_id':address.address_id,
+         'address_line1':address.address_line1, 'address_line2': address.address_line2, 
+         'city':address.city, 'state':address.state, 'zip_code':address.zipcode, 
+         'phone':address.phone}, {headers: headers}).map(this.extractData);
+    }
+
+    postCheckout(stripeToken: any, email_id: string, amount: number){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.post(this.urlString+'/checkout', {'stripeToken': stripeToken,
+         'email_id': email_id, 'amount': amount}, {headers: headers}).map(this.extractData);
     }
 }

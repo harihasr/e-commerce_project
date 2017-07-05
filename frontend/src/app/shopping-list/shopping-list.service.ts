@@ -2,33 +2,35 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Http, Response, Headers } from '@angular/http';
 import { ProductsModel } from '../products/products.model';
+import { EventEmitter } from '@angular/core';
 
 @Injectable()
 export class ShoppingListService{
-    //urlString: string = 'http://192.168.200.47:3000';
-    urlString: string = 'http://localhost:3000';
+    productsChanged = new EventEmitter<any[]>();
+    urlString: string = 'http://192.168.200.47:3000';
+    //urlString: string = 'http://localhost:3000';
     products: ProductsModel[] = [];
 
     constructor(private authService: AuthService, private http: Http){}
     //Get Products
     getProducts(){
-        this.getFromServer().subscribe(
-            (response) => {
-                if(response['success']){
-                    console.log("list servc");
-                    let responses = response['cart'];
-                    console.log(this.products.length);
-                    this.products.length = 0;
-                    for (var index = 0; index < responses.length; index++) {
-                        var temp = new ProductsModel(responses[index]['product_id'], '',
-                        responses[index]['quantity'], 1);
-                        this.products.push(temp);
+        // this.getFromServer().subscribe(
+        //     (response) => {
+        //         if(response['success']){
+        //             console.log("list servc");
+        //             let responses = response['cart'];
+        //             console.log(this.products.length);
+        //             this.products.length = 0;
+        //             for (var index = 0; index < responses.length; index++) {
+        //                 var temp = new ProductsModel(responses[index]['product_id'], '',
+        //                 responses[index]['quantity'], 1);
+        //                 this.products.push(temp);
                         
-                    }
-                }
-            },
-            (error) => console.log(error)
-        );
+        //             }
+        //         }
+        //     },
+        //     (error) => console.log(error)
+        // );
         return this.products.slice();
     }
 
@@ -41,6 +43,27 @@ export class ShoppingListService{
     extractData(res: Response){
         let body = res.json();
         return body;
+    }
+
+    putProduct(product_id: number, quantity: number){
+        if(this.products.length == 0){
+                const temp = new ProductsModel(product_id, '', quantity, 1)
+                this.products.push(temp);
+            }
+            else{
+                var flag = 0;
+                for (var index = 0; index < this.products.length; index++) {
+                    if(this.products[index]['product_id'] == product_id){
+                        this.products[index]['quantity'] += quantity;
+                        flag = 1;
+                    }
+                }
+                if(flag == 0){
+                    const temp = new ProductsModel(product_id, '', quantity, 1);
+                    this.products.push(temp);
+                }
+                this.productsChanged.emit(this.products.slice());
+            }
     }
 
     //Add product to server

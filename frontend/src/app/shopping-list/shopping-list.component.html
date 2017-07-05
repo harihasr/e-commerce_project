@@ -32,4 +32,4 @@
       <div>{{total}}$</div>
 </div>
 
-<button class="btn btn-primary" type="button" (click)="onCheckout()">Checkout</button>
+<button class="btn btn-primary" type="button" (click)="onCheckout()" [disabled]="!products.length">Checkout</button>
