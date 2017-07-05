@@ -64,12 +64,12 @@ apiRoutes.put('/', requireAuth, function (request, response) {
 
 });
 
-apiRoutes.delete('/', requireAuth, function (request, response) {
+apiRoutes.delete('/:product_id', requireAuth, function (request, response) {
+    var product_id = request.params.product_id;
     console.log(request.body);
     var cart = {
-        product_id: request.body.product_id,
-        user_id: request.user.user_id,
-        quantity: request.body.quantity
+        product_id: product_id,
+        user_id: request.user.user_id
     };
     db.deleteCart(cart, function (res) {
         response.status(200).json({success: true, message: "Deleted the product in cart successfully"});
