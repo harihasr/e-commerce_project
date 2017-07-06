@@ -4,6 +4,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { AddressModel } from './address/address.model';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { ProductsModel } from '../products/products.model';
 
 
 @Injectable()
@@ -69,10 +70,11 @@ export class UserService{
          'phone':address.phone}, {headers: headers}).map(this.extractData);
     }
 
-    postCheckout(stripeToken: any, email_id: string, amount: number){
+    postCheckout(stripeToken: any, email_id: string, amount: number, products: ProductsModel[], address_id: number){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
         return this.http.post(this.urlString+'/checkout', {'stripeToken': stripeToken,
-         'email_id': email_id, 'amount': amount}, {headers: headers}).map(this.extractData);
+         'email_id': email_id, 'amount': amount, 'products': products,
+        'address_id': address_id}, {headers: headers}).map(this.extractData);
     }
 }

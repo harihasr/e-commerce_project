@@ -10,6 +10,8 @@ export class ShoppingListService{
     urlString: string = 'http://192.168.200.47:3000';
     //urlString: string = 'http://localhost:3000';
     products: ProductsModel[] = [];
+    productsFromCart: ProductsModel[] = [];
+    
 
     constructor(private authService: AuthService, private http: Http){}
     //Get Products
@@ -87,4 +89,26 @@ export class ShoppingListService{
         headers.append("Authorization", localStorage.getItem('token'));
         return this.http.delete(this.urlString+'/cart/'+product_id, {headers: headers});
     }
+
+    getOrders(){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.get(this.urlString+'/orders', {headers: headers}).map(this.extractData);
+    }
+
+    putOrders(orderId: number, status: number){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.put(this.urlString+'/orders', {'order_id': orderId, 'status': status},
+         {headers: headers}).map(this.extractData);
+    }
+
+    getProductsFromCart(){
+        return this.productsFromCart.slice();
+    }
+
+    putProductsFromCart(products: ProductsModel[]){
+        this.productsFromCart = products;
+    }
+
 }

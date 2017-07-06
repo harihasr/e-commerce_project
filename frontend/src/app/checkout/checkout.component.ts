@@ -3,6 +3,8 @@ import { UserService } from '../user/user.service';
 import { AddressModel } from '../user/address/address.model';
 import { UserModel } from '../user/user.model';
 import { Router } from '@angular/router';
+import { ProductsModel } from '../products/products.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 //import { Stripe } from 'stripe';
 import { NgForm } from '@angular/forms';
 declare var Stripe: any;
@@ -14,18 +16,21 @@ declare var Stripe: any;
 })
 export class CheckoutComponent implements OnInit {
   addresses: AddressModel[] = [];
+  productsFromCart: ProductsModel[] = [];
   user: UserModel;
   cardNumber: string;
   expiryMonth: string;
   expiryYear: string;
   cvc: string;
   total: number;
+  address_id: number;
   private cardToken:any;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, 
+  private slService: ShoppingListService) { }
 
   ngOnInit() {
-    //Address Get
+    //Get Address
     this.userService.getAddress().subscribe(
        (response) => {
         if(response['success']){
@@ -43,7 +48,7 @@ export class CheckoutComponent implements OnInit {
       },
        (error) => console.log(error)
      );
-     //Profile Get
+     //Get Profile
      this.userService.getUser().subscribe(
       (response) => {
         if(response['success']){
@@ -53,6 +58,8 @@ export class CheckoutComponent implements OnInit {
     },
       (error) => {console.log(error)}
     );
+    //Get products from cart
+    this.productsFromCart = this.slService.getProductsFromCart();
     this.total = this.userService.getTotal();
     this.setUpCard();
   }
@@ -62,7 +69,8 @@ export class CheckoutComponent implements OnInit {
   } 
 
   onSelectAddress(address_id: number){
-
+    this.address_id = address_id;
+    console.log(address_id, this.address_id);
   } 
 
   onSubmit(form: NgForm){
@@ -80,11 +88,6 @@ export class CheckoutComponent implements OnInit {
     Stripe.setPublishableKey('pk_test_gB43t39GyV7GakrsgRaujvct');
   }
 
-  // getCardData(number, month, year, cvc) {
-  //   //I get the card data typed in here and pass it to the getCardToken method
-  //   this.getCardToken(number, month, year, cvc);
-  // }
-
   getCardToken(number, month, year, cvc) {
     //set up the card data as an object
     var dataObj = {"number": number, "exp_month": month, "exp_year": year, "cvc": cvc};
@@ -92,15 +95,26 @@ export class CheckoutComponent implements OnInit {
     // Request a token from Stripe:
     Stripe.card.createToken(dataObj,
       (status, response) => { 
-        //console.log(response);//I'm using an arrow function instead of stripeResponseHandler(a function also) cos it's kickass!
+        //console.log(response);//I'm using an arrow function instead of stripeResponseHandler
+        //(a function also) cos it's kickass!
         // basically you can do anything here with the reponse that has your token
         // you can hit your backend api and initialize a charge etc
+
+        //Getting products and quantity from productsModel
+        let products = [];
+        for (var index = 0; index < this.productsFromCart.length; index++) {
+          var temp = {'product_id':this.productsFromCart[index]['product_id'],
+        'quantity': this.productsFromCart[index]['quantity']}
+          products.push(temp);
+        }
+
         if (status === 200) {
           console.log("the card response: ", response);
           this.cardToken = response.id;
           console.log("the card token: ", this.cardToken);
           //Posting to URL
-          this.userService.postCheckout(this.cardToken, this.user.email, this.total).subscribe(
+          this.userService.postCheckout(this.cardToken, this.user.email, this.total, products,
+           this.address_id).subscribe(
             (response) => {
               console.log(response);
             },

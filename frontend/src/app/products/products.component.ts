@@ -36,20 +36,6 @@ products = [
   }
   
   addToCart(productid: number, productName: string, quantity: any, cost: number){
-    //const temp = new ProductsModel(productid, productName, parseInt(quantity), cost)
-    // if(this.authService.isAuthenticated()){
-    //   this.slService.pushToServer(productid, parseInt(quantity)).subscribe(
-    //     (response) => {
-    //       console.log(response)
-    //       if(response['success']){
-    //         this.resText = "Successfully added to cart";
-    //       }
-    //     },
-    //     (error) => console.log(error)
-    //   );
-    // }
-      // let temp = JSON.stringify({'product_id': productid, 'product_name': productName, 'quantity': quantity, 'cost': cost});
-      // NgXCookies.setCookie('cart', temp);
       if(this.authService.isAuthenticated()){
         this.slService.addProduct(productid, parseInt(quantity)).subscribe(
           (response) => console.log(response),

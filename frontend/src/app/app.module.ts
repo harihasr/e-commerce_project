@@ -22,6 +22,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { AddressEditComponent } from './user/address-edit/address-edit.component';
 import { DropdownDirective } from './header/dropdown.directive';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrderAdminComponent } from './order-admin/order-admin.component';
 
 
 
@@ -39,7 +40,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     OrdersComponent,
     AddressEditComponent,
     DropdownDirective,
-    CheckoutComponent
+    CheckoutComponent,
+    OrderAdminComponent
   ],
   imports: [
     BrowserModule,

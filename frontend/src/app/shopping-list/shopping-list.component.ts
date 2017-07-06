@@ -145,6 +145,7 @@ export class ShoppingListComponent implements OnInit {
   onCheckout(){
     this.userService.setTotal(this.total);
     if(this.authService.isAuthenticated()){
+      this.slService.putProductsFromCart(this.products);
       this.router.navigate(['checkout']);
     }
     

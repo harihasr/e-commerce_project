@@ -7,7 +7,8 @@
     <div class="navbar-default">
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="/products">Products</a></li>
-        <li routerLinkActive="active"><a routerLink="/cart"><span class="glyphicon glyphicon-shopping-cart"> Cart</span></a></li>
+        <li routerLinkActive="active"><a routerLink="/cart"><span class="glyphicon glyphicon-shopping-cart">
+           Cart</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <ng-template [ngIf]="!authService.isAuthenticated()">
@@ -19,7 +20,8 @@
 
           <!--*ngIf="authService.isAuthenticated()"-->
         <li class="dropdown" appDropdown *ngIf="authService.isAuthenticated()">
-          <a style="cursor: pointer;" class="dropdown-toggle" role="button" appDropdown><span class="glyphicon glyphicon-user"> User<span class="caret"></span></span></a>
+          <a style="cursor: pointer;" class="dropdown-toggle" role="button" appDropdown>
+            <span class="glyphicon glyphicon-user"> User<span class="caret"></span></span></a>
           <ul class="dropdown-menu">
             <li><a routerLink="/profile" style="cursor: pointer;">Profile</a></li>
             <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>

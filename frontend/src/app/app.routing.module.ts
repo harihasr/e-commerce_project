@@ -11,6 +11,7 @@ import { ErrorComponent } from './error/error.component';
 import { AddressEditComponent } from './user/address-edit/address-edit.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrderAdminComponent } from './order-admin/order-admin.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const appRoutes: Routes = [
     { path: 'error', component: ErrorComponent },
     { path: 'address-edit', component: AddressEditComponent },
     { path: 'orders', component: OrdersComponent },
-    { path: 'checkout', component: CheckoutComponent}
+    { path: 'checkout', component: CheckoutComponent},
+    { path: 'admin/orders', component: OrderAdminComponent}
 ];
 
 @NgModule({
