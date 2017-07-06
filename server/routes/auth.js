@@ -108,6 +108,22 @@ apiRoutes.get('/address',requireAuth,function (request, response) {
     })
 });
 
+apiRoutes.get('/orders', requireAuth, function (request, response) {
+    var user_id = request.user.user_id;
+    console.log(request.body);
+
+    var user={
+        user_id: user_id
+    };
+
+    db.getOrdersByUserID(user, function (res) {
+        response.status(200).json({success:true, orders:res});
+    }, function (err) {
+        response.status(400).json({success:false, message:"Error retrieving orders"});
+    })
+
+});
+
 apiRoutes.get('/logout', requireAuth, function (req, res, next) {
     req.logout();
     res.status(200).json({success: true, message: 'Logged out successfully'});

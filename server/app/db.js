@@ -202,4 +202,16 @@ db.deleteCart = function (cart, successCallback, failureCallback) {
     });
 };
 
+db.getOrdersByUserID = function (user, successCallback, failureCallback) {
+    var sqlQuery = "SET @order_list = ''; CALL getOrdersByUserID('"+user.user_id+"',@order_list); select @order_list;";
+    connection.query(sqlQuery, function (err, rows, fields, res) {
+        if (err) {
+            failureCallback(err);
+            return;
+        }
+        successCallback(rows[0]);
+    });
+};
+
+
 module.exports = db;
