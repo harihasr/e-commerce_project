@@ -37,4 +37,28 @@ router.get('/addtocart/:id', function(req, res, next){
 
 });
 
+router.post('/checkout', function (request, response, next) {
+    var stripe = require("stripe")("");
+
+// Token is created using Stripe.js or Checkout!
+// Get the payment token submitted by the form:
+    var token = request.body.stripeToken; // Using Express
+
+// Charge the user's card:
+    var charge = stripe.charges.create({
+        amount: request.body.amount * 100,
+        currency: "usd",
+        description: "Example charge to "+request.body.email_id,
+        source: token,
+    }, function(err, charge) {
+        // asynchronously called
+        if(err){
+            console.log(err);
+            response.status(400).json({success: false, message:'Error making charge'});
+            return;
+        }
+        response.status(200).json({success: true, message:'Successfully bought the products'});
+    });
+});
+
 module.exports = router;
