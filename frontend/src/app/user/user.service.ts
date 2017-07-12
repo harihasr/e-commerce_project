@@ -12,6 +12,7 @@ export class UserService{
     user: UserModel[] = [];
     address: AddressModel[] = [];
     total: number = 0;
+    previousUrl: string;
 
     urlString: string = 'http://192.168.200.47:3000';
     //urlString: string = 'http://localhost:3000';
@@ -76,5 +77,13 @@ export class UserService{
         return this.http.post(this.urlString+'/checkout', {'stripeToken': stripeToken,
          'email_id': email_id, 'amount': amount, 'products': products,
         'address_id': address_id}, {headers: headers}).map(this.extractData);
+    }
+
+    setReturnUrl(url: string){
+        this.previousUrl = url;
+    }
+
+    getReturnUrl(){
+        return this.previousUrl;
     }
 }

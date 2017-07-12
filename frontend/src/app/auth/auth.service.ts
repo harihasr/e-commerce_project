@@ -18,6 +18,18 @@ export class AuthService{
         return this.http.post(this.urlString+'/user/signin', {'email': email, 'password': password}).map(this.extractSignInData);
     }
 
+    isValid(){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        let response =  this.http.get(this.urlString+'/isvalid', {headers: headers}).map(this.extractData);
+        if(response['sucess']){
+            //do nothing
+        }
+        else{
+            localStorage.removeItem('token');
+        }
+    }
+
     extractSignInData(res: Response){
         let body = res.json();
         let headers = res.headers;
@@ -43,6 +55,16 @@ export class AuthService{
 
     isAuthenticated(){
         //console.log('isAuthenticated:  '+localStorage.getItem('token'));
+        // this.isValid().subscribe(
+        //     (response) => {
+        //         if(!response['success']){
+        //             localStorage.removeItem('token');
+        //         }
+        //     },
+        //     (error) => {
+        //         localStorage.removeItem('token');
+        //     }
+        // );
         if(localStorage.getItem('token')!=null){
             return true;
         }

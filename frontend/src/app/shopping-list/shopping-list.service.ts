@@ -14,7 +14,7 @@ export class ShoppingListService{
     
 
     constructor(private authService: AuthService, private http: Http){}
-    //Get Products
+    //When user is not authenticated
     getProducts(){
         // this.getFromServer().subscribe(
         //     (response) => {
@@ -36,17 +36,8 @@ export class ShoppingListService{
         return this.products.slice();
     }
 
-    getFromServer(){
-        var headers = new Headers();
-        headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.get(this.urlString+'/cart', {headers: headers}).map(this.extractData);
-    }
 
-    extractData(res: Response){
-        let body = res.json();
-        return body;
-    }
-
+    
     putProduct(product_id: number, quantity: number){
         if(this.products.length == 0){
                 const temp = new ProductsModel(product_id, '', quantity, 1)
@@ -68,7 +59,56 @@ export class ShoppingListService{
             }
     }
 
-    //Add product to server
+    deleteProduct(productId: number){
+        for (var index = 0; index < this.products.length; index++) {
+            if(this.products[index]['product_id'] == productId){
+            // this.products[index]['quantity'] += 0;
+                delete this.products[index];
+            }
+        }
+        this.productsChanged.emit(this.products.slice());
+    }
+
+    incrementProduct(product_id: number){
+        for (var index = 0; index < this.products.length; index++) {
+            if(this.products[index]['product_id'] == product_id){
+                this.products[index]['quantity'] += 1;
+            }
+        }
+        return this.products.slice();
+    }
+
+    setCart(products: ProductsModel[]){
+        this.products = products;
+        this.productsChanged.emit(this.products.slice());
+    }
+
+    
+    extractData(res: Response){
+        let body = res.json();
+        return body;
+    }
+
+    onLoggedIn(){
+        if(this.products.length > 0){
+            
+            for (var index = 0; index < this.products.length; index++) {
+                this.addProduct(this.products[index]['product_id'], this.products[index]['quantity']).
+                subscribe(
+                    (response) => {
+                        console.log('onLoggedIn, slService: '+response);
+                    },
+                    (error) => console.log(error)
+                );
+            }
+        }
+    }
+
+    getFromServer(){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.get(this.urlString+'/cart', {headers: headers}).map(this.extractData);
+    }
 
     addProduct(product_id: number, quantity: number){
         var headers = new Headers();
@@ -90,17 +130,25 @@ export class ShoppingListService{
         return this.http.delete(this.urlString+'/cart/'+product_id, {headers: headers});
     }
 
+    //Orders
+
     getOrders(){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.get(this.urlString+'/orders', {headers: headers}).map(this.extractData);
+        return this.http.get(this.urlString+'/user/orders', {headers: headers}).map(this.extractData);
     }
 
     putOrders(orderId: number, status: number){
         var headers = new Headers();
         headers.append("Authorization", localStorage.getItem('token'));
-        return this.http.put(this.urlString+'/orders', {'order_id': orderId, 'status': status},
+        return this.http.put(this.urlString+'/admin/orders', {'order_id': orderId, 'status': status},
          {headers: headers}).map(this.extractData);
+    }
+
+    getAdminOrders(){
+        var headers = new Headers();
+        headers.append("Authorization", localStorage.getItem('token'));
+        return this.http.get(this.urlString+'/admin/orders', {headers: headers}).map(this.extractData);
     }
 
     getProductsFromCart(){

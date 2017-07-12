@@ -25,7 +25,8 @@
                  <p> Select delivery address </p>
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let address of addresses" id="address">
-                      {{address.address_line1}}, {{address.address_line2}} ... {{address.zipcode}}
+                      {{address.address_line1}}, {{address.address_line2}}
+                      {{address.city}}, {{address.state}}, {{address.zipcode}}
                       <button (click)="onSelectAddress(address.address_id)" class="btn btn-primary">
                         Select Address
                       </button>

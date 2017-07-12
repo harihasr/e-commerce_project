@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +14,7 @@ export class SignupComponent implements OnInit {
   passText: string = '';
   finText: string = '';
 
-  constructor(private authService: AuthService, private router: Router) { 
+  constructor(private authService: AuthService, private router: Router, private userService: UserService) { 
     
   }
 
@@ -28,7 +29,8 @@ export class SignupComponent implements OnInit {
         (response) => {
           var res = JSON.parse(response['_body']);
           if(res['success']){
-          this.router.navigate(['signin'])
+            this.userService.setReturnUrl('signup');
+            this.router.navigate(['signin']);
           }
           else{
             console.log("Else " +response)

@@ -1,35 +1,34 @@
-<!--<div class="row">
-<div class="col-xs-10">
-  <ul class="list-group">
-    <a class="list-group-item" style="cursor: pointer" *ngFor="let product of products">
-      {{product['product_name']}} ({{product['quantity']}})
-      
-        <div class="col-sm-5"></div>
-        <div class="col-sm-2"></div>
-      </div>
-    </a>
-  </ul>
-</div>
-</div>-->
-
 <div class="row">
-  <div class="col-xs-10">
+  <div class="col-xs-10" *ngIf="products.length > 0">
     <ul class="list-group">
+      
       <li class="list-group-item" *ngFor="let product of products">
         <div class="col-sm-5">{{product['product_name']}}</div>
-        <button (click)="onDec(product['product_id'], product['quantity'])" type="button">-</button>
+        <button (click)="onDec(product['product_id'], product['quantity'])" *ngIf="authService.isAuthenticated()" type="button">-</button>
         <div class="col-sm-2">{{product['quantity']}}</div>
-        <button (click)="onInc(product['product_id'], product['quantity'])" type="button">+</button>
-        <button class="btn btn-danger" type="button" (click)="deleteFromCart(product['product_id'])">Delete</button>
+        <button (click)="onInc(product['product_id'], product['quantity'])" *ngIf="authService.isAuthenticated()" type="button">+</button>
+        <button class="btn btn-danger" type="button" (click)="deleteFromCart(product['product_id'])" *ngIf="authService.isAuthenticated()">Delete</button>
       </li>
     </ul>
+     
   </div>
 </div>
-<hr>
-  
-<div>
+<!--<hr>-->
+
+<div *ngIf="products.length < 1">
+  <span class="help-block"> There are no items in your cart. Please continue shopping! </span>
+</div>
+
+
+  <span class="help-block" *ngIf="!authService.isAuthenticated()">
+        Please <a style="cursor: pointer" (click)="onLogin()">Login</a> or <a style="cursor: pointer"
+         (click)="onRegister()">Register</a> to edit your cart! </span>
+<div *ngIf="products.length > 0">
       <div>The total is: </div>
       <div>{{total}}$</div>
 </div>
 
-<button class="btn btn-primary" type="button" (click)="onCheckout()" [disabled]="!products.length">Checkout</button>
+
+<span class="help-block" *ngIf="!this.authService.isAuthenticated()">{{resText}}</span>
+<button [disabled]="!authService.isAuthenticated()" class="btn btn-primary"
+ *ngIf="products.length > 0" type="button" (click)="onCheckout()">Checkout</button>

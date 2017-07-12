@@ -14,6 +14,7 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { AddressComponent } from './user/address/address.component';
 import { AppRoutingModule } from './app.routing.module';
 
+
 import { AuthService } from './auth/auth.service';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { UserService } from './user/user.service';
@@ -23,6 +24,7 @@ import { AddressEditComponent } from './user/address-edit/address-edit.component
 import { DropdownDirective } from './header/dropdown.directive';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderAdminComponent } from './order-admin/order-admin.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 
@@ -41,7 +43,8 @@ import { OrderAdminComponent } from './order-admin/order-admin.component';
     AddressEditComponent,
     DropdownDirective,
     CheckoutComponent,
-    OrderAdminComponent
+    OrderAdminComponent,
+    OrderDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,7 @@ import { OrderAdminComponent } from './order-admin/order-admin.component';
     AppRoutingModule,
     Ng2Webstorage
   ],
-  providers: [AuthService, ShoppingListService, UserService],
+  providers: [AuthService, ShoppingListService, UserService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

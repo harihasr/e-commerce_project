@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./address-edit.component.css']
 })
 export class AddressEditComponent implements OnInit {
-
-  constructor(private userService: UserService, private router: Router) { }
+  returnUrl: string;
+  constructor(private userService: UserService, private router: Router ) { }
 
   ngOnInit() {
   }
@@ -22,7 +22,14 @@ export class AddressEditComponent implements OnInit {
       (response) => {
         console.log(response)
         if(response['success']){
-          this.router.navigate(['/profile']);
+          let tempUrl = this.userService.getReturnUrl();
+          if(tempUrl.length > 0){
+            this.router.navigate(['/'+tempUrl]);
+          }
+          else{
+            this.router.navigate(['/profile']);
+          }
+          
         }
       },
       (error) => console.log(error)

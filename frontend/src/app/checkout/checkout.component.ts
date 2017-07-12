@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
   private cardToken:any;
 
   constructor(private userService: UserService, private router: Router, 
-  private slService: ShoppingListService) { }
+  private slService: ShoppingListService ) { }
 
   ngOnInit() {
     //Get Address
@@ -62,15 +62,18 @@ export class CheckoutComponent implements OnInit {
     this.productsFromCart = this.slService.getProductsFromCart();
     this.total = this.userService.getTotal();
     this.setUpCard();
+
+    
   }
 
   onAddAddress(){
+    this.userService.setReturnUrl('checkout');
     this.router.navigate(['address-edit']);
   } 
 
   onSelectAddress(address_id: number){
     this.address_id = address_id;
-    console.log(address_id, this.address_id);
+    //console.log(address_id, this.address_id);
   } 
 
   onSubmit(form: NgForm){
@@ -117,6 +120,10 @@ export class CheckoutComponent implements OnInit {
            this.address_id).subscribe(
             (response) => {
               console.log(response);
+              if(response['success']){
+                this.userService.setReturnUrl('checkout');
+                this.router.navigate(['orders']);
+              }
             },
             (error) => console.log(error)
           );
@@ -126,7 +133,5 @@ export class CheckoutComponent implements OnInit {
         }
       }
     );
-
   }
-
 }

@@ -14,6 +14,7 @@ import { UserService } from '../user/user.service';
 export class ShoppingListComponent implements OnInit {
   products: ProductsModel[] = [];
   total: number = 0;
+  resText: string = 'Please signin to edit cart and place order';
   
   constructor(private slService: ShoppingListService,
    private authService: AuthService, private router: Router,
@@ -44,7 +45,7 @@ export class ShoppingListComponent implements OnInit {
             this.products[index]['cost'] = 15;
           }
           else if(this.products[index]['product_id'] == 2){
-            this.products[index]['product_name'] = 'Dr. Bombay Arm Band';
+            this.products[index]['product_name'] = 'Break 90';
             this.products[index]['cost'] = 39;
           }
         }
@@ -70,36 +71,67 @@ export class ShoppingListComponent implements OnInit {
             this.products[index]['cost'] = 15;
           }
           else if(this.products[index]['product_id'] == 2){
-            this.products[index]['product_name'] = 'Dr. Bombay Arm Band';
+            this.products[index]['product_name'] = 'Break 90';
             this.products[index]['cost'] = 39;
           }
         }
+        this.total = 0;
+        for (var index = 0; index < this.products.length; index++) {
+            this.total += this.products[index]['quantity']*this.products[index]['cost']; 
+          }
     }
   }
 
-  onInc(product_id, quantity){
-    for (var index = 0; index < this.products.length; index++) {
+  onInc(product_id: number, quantity: number){
+    if(this.authService.isAuthenticated()){
+      for (var index = 0; index < this.products.length; index++) {
         if(this.products[index]['product_id'] == product_id){
-            this.products[index]['quantity'] += 1;
-            this.slService.updateCart(product_id, quantity+1).subscribe(
-            (response) => {
-              console.log(response);
-              if(response['success']){
-                this.router.navigate(['cart']);
-              }
+            this.products[index]['quantity'] = this.products[index]['quantity'] + 1;
+            
+              this.slService.updateCart(product_id, quantity+1).subscribe(
+                (response) => {
+                  console.log(response);
+                  if(response['success']){
+                    this.router.navigate(['cart']);
+                  }
+                  this.total = 0;
+                  for (var index = 0; index < this.products.length; index++) {
+                    this.total += this.products[index]['quantity']*this.products[index]['cost']; 
+                  }
+                },
+                (error) => console.log(error)
+              );
+            
               this.total = 0;
               for (var index = 0; index < this.products.length; index++) {
-                this.total += this.products[index]['quantity']*this.products[index]['cost']; 
-              }
-            },
-            (error) => console.log(error)
-          );
+                  this.total += this.products[index]['quantity']*this.products[index]['cost']; 
+              
+              
+            } 
         }
+        
+      }
+    }
+    else{
+      for(var index = 0; index < this.products.length; index++){
+        if(this.products[index]['product_id'] == product_id){
+          //console.log(typeof(this.products[index]['quantity']));
+            this.products[index]['quantity'] = this.products[index]['quantity'] + 1;
+        }
+      }
+      // this.slService.setCart(this.products);
+      // this.products.length = 0;
+      // this.products = this.slService.incrementProduct(product_id);
+      // this.total = 0;
+      for (var index = 0; index < this.products.length; index++) {
+        this.total += this.products[index]['quantity']*this.products[index]['cost'];
+      }
     }
   }
 
   onDec(product_id, quantity){
-    for (var index = 0; index < this.products.length; index++) {
+    if(this.authService.isAuthenticated()){
+      for (var index = 0; index < this.products.length; index++) {
         if(this.products[index]['product_id'] == product_id){
           if(quantity == 1){
             this.deleteFromCart(product_id);
@@ -121,33 +153,83 @@ export class ShoppingListComponent implements OnInit {
             );
           }
         }
+      }
     }
+    else{
+      for(var index = 0; index < this.products.length; index++){
+        if(this.products[index]['product_id'] == product_id){
+          if(this.products[index]['quantity'] == 1){
+            //this.slService.deleteProduct(product_id);
+            delete this.products[index];
+            this.router.navigate(['cart']);
+          }
+          else{
+            this.products[index]['quantity'] -= 1;
+            this.total = 0;
+            for (var index = 0; index < this.products.length; index++) {
+                  this.total += this.products[index]['quantity']*this.products[index]['cost']; 
+            }
+            // this.slService.setCart(this.products);
+            // this.slService.productsChanged.subscribe(
+            //   (products) => {
+            //     this.products = products;
+            //   }
+            // );
+          }
+        }
+      }
+    }
+    
   }
 
   deleteFromCart(product_id){
+
     for (var index = 0; index < this.products.length; index++) {
         if(this.products[index]['product_id'] == product_id){
             // this.products[index]['quantity'] += 0;
             // delete this.products[index];
-            this.slService.deleteCart(product_id).subscribe(
-              (response) => {
-                console.log(response);
-                if(response['success']){
-                  this.router.navigate(['cart']);
-                }
-              },
-              (error) => console.log(error)
-            );
+            if(this.authService.isAuthenticated()){
+              this.slService.deleteCart(product_id).subscribe(
+                (response) => {
+                  console.log(response);
+                  if(response['success']){
+                    this.router.navigate(['cart']);
+                  }
+                },
+                (error) => console.log(error)
+              );
+            }
+            else{
+              // this.slService.deleteProduct(product_id);
+              // this.slService.productsChanged.subscribe(
+              //   (products) => {
+              //     this.products = products;
+              //   }
+              // );
+              delete this.products[index];
+              this.slService.setCart(this.products);
+              this.router.navigate(['cart']);
+            }
         }
     }
   }
 
+  onLogin(){
+    this.userService.setReturnUrl('cart');
+    this.slService.setCart(this.products);
+    this.router.navigate(['signin']);
+  }
+
+  onRegister(){
+    //this.userService.setReturnUrl('cart');
+    this.slService.setCart(this.products);
+    this.router.navigate(['signup']);
+  }
+
   onCheckout(){
     this.userService.setTotal(this.total);
-    if(this.authService.isAuthenticated()){
       this.slService.putProductsFromCart(this.products);
       this.router.navigate(['checkout']);
-    }
     
   }
 }
