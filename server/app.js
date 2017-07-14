@@ -13,6 +13,7 @@ var index = require('./routes/index');
 var userRoutes = require('./routes/auth');
 var productRoutes = require('./routes/products');
 var cartRoutes = require('./routes/cart');
+var adminRoutes = require('./routes/admin');
 
 var app = express();
 
@@ -68,6 +69,7 @@ app.use(function (req, res, next) {
 app.use('/user',userRoutes);
 app.use('/product',productRoutes);
 app.use('/cart', cartRoutes);
+app.use('/admin', adminRoutes);
 app.use('/', index);
 //require('./routes/auth')(app);
 

@@ -203,15 +203,56 @@ db.deleteCart = function (cart, successCallback, failureCallback) {
 };
 
 db.getOrdersByUserID = function (user, successCallback, failureCallback) {
-    var sqlQuery = "SET @order_list = ''; CALL getOrdersByUserID('"+user.user_id+"',@order_list); select @order_list;";
+    //var sqlQuery = "SET @order_list = ''; CALL getOrdersByUserID('"+user.user_id+"',@order_list); select @order_list;";
+    var sqlQuery = "select * from orders join order_details on orders.order_id = order_details.order_id join address on orders.address_id = address.address_id where orders.user_id ='"+user.user_id+"';";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
             return;
         }
-        successCallback(rows[0]);
+        successCallback(rows);
     });
 };
 
+db.createOrder = function (order, successCallback, failureCallback) {
+  var sqlQuery = " CALL create_order ('" + order.date + "','" + order.user_id + "','" + order.address_id + "');";
+
+    connection.query(sqlQuery, function (err, rows, fields, res) {
+        if (err) {
+            failureCallback(err);
+            return;
+        }
+        if(rows[0]) {
+            successCallback();
+        }
+        else{
+            failureCallback("Error updating the data base details for user: "+order.user_id);
+        }
+    });
+};
+
+db.getAllOrders = function (successCallback, failureCallback) {
+    //var sqlQuery = "SELECT * from `dr_bombay`.orders;";
+    var sqlQuery = "select * from orders join order_details on orders.order_id = order_details.order_id join address on orders.address_id = address.address_id";
+    connection.query(sqlQuery, function (err, rows, fields, res) {
+        if (err) {
+            failureCallback(err);
+            return;
+        }
+        successCallback(rows);
+    });
+};
+
+db.updateOrder = function (order, successCallback, failureCallback) {
+    var sqlQuery = "UPDATE `dr_bombay`.`orders` SET `status` = '" + order.status +"' WHERE `order_id` = '" + order.order_id + "';";
+
+    connection.query(sqlQuery, function (err, rows, fields, res) {
+        if (err) {
+            failureCallback(err);
+            return;
+        }
+        successCallback();
+    });
+};
 
 module.exports = db;
