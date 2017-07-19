@@ -1,9 +1,9 @@
 'use strict';
 module.exports = {
     'secret': "Passphrase for encryption",
-    'database_host': 'localhost',
+    'database_host': 'sql9.freemysqlhosting.net',
     'database_port': '3306',
-    'database_user': 'root',
-    'database_password': 'P@ssword01',
-    'database_name': 'dr_bombay'
+    'database_user': 'sql9185915',
+    'database_password': 'Gi444bJ3cm',
+    'database_name': 'sql9185915'
 };

@@ -29,7 +29,7 @@ db.createUser = function (user, successCallback, failureCallback) {
     crypt.createHash(user.password, function (res) {
         passwordHash = res;
 
-        connection.query("INSERT INTO `dr_bombay`.`users` (`first_name`, `last_name`, `email_id`, `password`) VALUES ('" + user.first_name + "','" + user.last_name + "','" + user.email_id + "', '" + passwordHash + "');",
+        connection.query("INSERT INTO  `users` (`first_name`, `last_name`, `email_id`, `password`) VALUES ('" + user.first_name + "','" + user.last_name + "','" + user.email_id + "', '" + passwordHash + "');",
             function (err, rows, fields, res) {
                 if (err) {
                     failureCallback(err);
@@ -43,7 +43,7 @@ db.createUser = function (user, successCallback, failureCallback) {
 };
 
 db.findUser = function (user, successCallback, failureCallback) {
-    var sqlQuery = "SELECT * FROM `dr_bombay`.users WHERE `email_id` = '" + user.email_id + "';";
+    var sqlQuery = "SELECT * FROM  users WHERE `email_id` = '" + user.email_id + "';";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
@@ -58,7 +58,7 @@ db.findUser = function (user, successCallback, failureCallback) {
 };
 
 db.findUserById= function (id, successCallback, failureCallback) {
-    var sqlQuery = "SELECT * FROM `dr_bombay`.users WHERE `user_id` = '" + id + "';";
+    var sqlQuery = "SELECT * FROM  users WHERE `user_id` = '" + id + "';";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
@@ -77,7 +77,7 @@ db.updateUser = function (user, successCallback, failureCallback) {
     crypt.createHash(user.password, function (res) {
         passwordHash = res;
 
-        connection.query("UPDATE `dr_bombay`.users SET `first_name` = '" + user.first_name + "', `last_name`='"+user.last_name+"', `password` ='"+passwordHash+"' WHERE `email_id` = '" + user.email_id + "';",
+        connection.query("UPDATE  users SET `first_name` = '" + user.first_name + "', `last_name`='"+user.last_name+"', `password` ='"+passwordHash+"' WHERE `email_id` = '" + user.email_id + "';",
             function (err, rows, fields, res) {
                 if (err) {
                     failureCallback(err);
@@ -92,7 +92,7 @@ db.updateUser = function (user, successCallback, failureCallback) {
 };
 
 db.getProducts = function(product, successCallback, failureCallback){
-    var sqlQuery = "SELECT * FROM `dr_bombay`.products;";
+    var sqlQuery = "SELECT * FROM  products;";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
@@ -107,7 +107,7 @@ db.getProducts = function(product, successCallback, failureCallback){
 };
 
 db.findProductById = function(productId, successCallback, failureCallback){
-    var sqlQuery = "SELECT * FROM `dr_bombay`.products WHERE product_id = '" + productId + "';";
+    var sqlQuery = "SELECT * FROM  products WHERE product_id = '" + productId + "';";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
@@ -122,7 +122,7 @@ db.findProductById = function(productId, successCallback, failureCallback){
 };
 
 db.addAddress = function(address, successCallback, failureCallback){
-    var sqlQuery = "INSERT INTO `dr_bombay`.`address` (`address_line1`, `address_line2`, `city`, `state`, `zip_code`, `phone`, `user_id`) VALUES ('" + address.address_line1 + "','" + address.address_line2 + "','" + address.city + "', '" + address.state + "','"+address.zip_code+"','"+address.phone+"','"+address.user_id+"');";
+    var sqlQuery = "INSERT INTO  `address` (`address_line1`, `address_line2`, `city`, `state`, `zip_code`, `phone`, `user_id`) VALUES ('" + address.address_line1 + "','" + address.address_line2 + "','" + address.city + "', '" + address.state + "','"+address.zip_code+"','"+address.phone+"','"+address.user_id+"');";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
             failureCallback(err);
@@ -133,7 +133,7 @@ db.addAddress = function(address, successCallback, failureCallback){
 };
 
 db.updateAddress = function (address, successCallback, failureCallback) {
-    var sqlQuery = "UPDATE `dr_bombay`.`address` SET `address_line1` = '" + address.address_line1 + "', `address_line2`='"+ address.address_line2 +"', `city` ='"+address.city+"', `state` ='"+address.state+"', `zip_code` ='"+address.zip_code+"', `phone` ='"+address.phone+"', `user_id` ='"+address.user_id+"' WHERE `address_id` = '" + address.address_id + "';";
+    var sqlQuery = "UPDATE  `address` SET `address_line1` = '" + address.address_line1 + "', `address_line2`='"+ address.address_line2 +"', `city` ='"+address.city+"', `state` ='"+address.state+"', `zip_code` ='"+address.zip_code+"', `phone` ='"+address.phone+"', `user_id` ='"+address.user_id+"' WHERE `address_id` = '" + address.address_id + "';";
 
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
@@ -145,7 +145,7 @@ db.updateAddress = function (address, successCallback, failureCallback) {
 };
 
 db.getAddress = function (user, successCallback, failureCallback) {
-    var sqlQuery = "SELECT * from `dr_bombay`.address WHERE `user_id` = '"+user.user_id+"'";
+    var sqlQuery = "SELECT * from  address WHERE `user_id` = '"+user.user_id+"'";
 
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
@@ -157,7 +157,7 @@ db.getAddress = function (user, successCallback, failureCallback) {
 };
 
 db.getCart = function (user, successCallback, failureCallback) {
-    var sqlQuery = "SELECT * from `dr_bombay`.cart WHERE `user_id` = '"+user.user_id+"'";
+    var sqlQuery = "SELECT * from  cart WHERE `user_id` = '"+user.user_id+"'";
 
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
@@ -169,7 +169,7 @@ db.getCart = function (user, successCallback, failureCallback) {
 };
 
 db.addToCart = function (cart, successCallback, failureCallback) {
-  var sqlQuery = "INSERT INTO `dr_bombay`.`cart` (`product_id`, `user_id`, `quantity`) VALUES ('" + cart.product_id + "','" + cart.user_id + "','"+cart.quantity+"');";
+  var sqlQuery = "INSERT INTO  `cart` (`product_id`, `user_id`, `quantity`) VALUES ('" + cart.product_id + "','" + cart.user_id + "','"+cart.quantity+"');";
 
   connection.query(sqlQuery, function (err, rows, feild, res) {
      if(err){
@@ -181,7 +181,7 @@ db.addToCart = function (cart, successCallback, failureCallback) {
 };
 
 db.updateCart = function (cart, successCallback, failureCallback) {
-  var sqlQuery = "UPDATE `dr_bombay`.`cart` SET `quantity` = '" + cart.quantity +"' WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
+  var sqlQuery = "UPDATE  `cart` SET `quantity` = '" + cart.quantity +"' WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
     connection.query(sqlQuery, function (err, rows, feild, res) {
         if(err){
             failureCallback(err);
@@ -192,7 +192,7 @@ db.updateCart = function (cart, successCallback, failureCallback) {
 };
 
 db.deleteCart = function (cart, successCallback, failureCallback) {
-    var sqlQuery = "DELETE from `dr_bombay`.`cart` WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
+    var sqlQuery = "DELETE from  `cart` WHERE `product_id` = '" + cart.product_id +"' and `user_id` ='" + cart.user_id + "';";
     connection.query(sqlQuery, function (err, rows, feild, res) {
         if(err){
             failureCallback(err);
@@ -232,7 +232,7 @@ db.createOrder = function (order, successCallback, failureCallback) {
 };
 
 db.getAllOrders = function (successCallback, failureCallback) {
-    //var sqlQuery = "SELECT * from `dr_bombay`.orders;";
+    //var sqlQuery = "SELECT * from  orders;";
     var sqlQuery = "select * from orders join order_details on orders.order_id = order_details.order_id join address on orders.address_id = address.address_id";
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
@@ -244,7 +244,7 @@ db.getAllOrders = function (successCallback, failureCallback) {
 };
 
 db.updateOrder = function (order, successCallback, failureCallback) {
-    var sqlQuery = "UPDATE `dr_bombay`.`orders` SET `status` = '" + order.status +"' WHERE `order_id` = '" + order.order_id + "';";
+    var sqlQuery = "UPDATE  `orders` SET `status` = '" + order.status +"' WHERE `order_id` = '" + order.order_id + "';";
 
     connection.query(sqlQuery, function (err, rows, fields, res) {
         if (err) {
